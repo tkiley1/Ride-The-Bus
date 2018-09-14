@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import random
+from rtb import *
 
 def initialize_deck():
     deck = []
@@ -8,7 +9,7 @@ def initialize_deck():
     return deck
 
 def flip(deck):
-    r = random.randint(0, len(deck))
+    r = random.randint(0, len(deck)-1)
     tmp = deck[r]
     deck.remove(tmp)
     return tmp, deck
@@ -26,6 +27,8 @@ def rtb():
         if guess != get_color(card):
             curr_flip = []
             it = 0
+            games = games + 1
+            print("Fucked up the color")
             continue
         seen_cards = seen_cards + [card]
         curr_flip = curr_flip + [card]
@@ -35,12 +38,14 @@ def rtb():
         if guess == "Higher" and get_value(card) <= curr_flip[0] or (guess == "Lower" and get_value(card) >= curr_flip[0]):
             curr_flip = []
             it = 0
+            games = games + 1
+            print("Fucked up higher or lower")
             continue
         seen_cards = seen_cards + [card]
         curr_flip = curr_flip + [card]
         tmp = []
         for i in curr_flip:
-            tmp = tmp + get_value(i)
+            tmp = tmp + [get_value(i)]
         tmp = sorted(tmp)
         it = it + 1
         guess = get_guess(it, seen_cards, curr_flip, deck)
@@ -48,6 +53,8 @@ def rtb():
         if (guess == "Between" and (get_value(card) >= tmp[0] or get_value(card) <= tmp[1])) or  (guess == "Outside" and (get_value(card) <= tmp[0] or get_value(card) >= tmp[1])):
             curr_flip = []
             it = 0
+            games = games + 1
+            print("Fucked up between or outside")
             continue
         seen_cards = seen_cards + [card]
         curr_flip = curr_flip + [card]
@@ -57,13 +64,16 @@ def rtb():
         if guess != get_suit(card):
             curr_flip = []
             it = 0
+            games = games + 1
+            print("Fucked up the suit")
             continue
         else:
             wins = wins + 1
             games = games + 1
             curr_flip = []
             it = 0
+            print("Didn't fuck up")
             continue
-    return wins, games, float(wins/games)
+    return wins, games#, float(wins/games)
 
 print(rtb())
