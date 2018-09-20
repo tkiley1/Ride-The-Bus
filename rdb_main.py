@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import random
 from rtb import *
 
@@ -90,10 +90,13 @@ def rtb():
             #print("Didn't fuck up")
             continue
     return wins, games, 100*(float(wins)/games)
+
+### DRIVER ###
 ovr_pct = 0
-for i in range(1000000):
+c = input("Number of repetitions: ")
+for i in range(int(c)):
     wins, games, pct = rtb()
     ovr_pct = pct + ovr_pct
-    print i
-ovr_pct = ovr_pct / 1000000
-print ovr_pct
+    print (i)
+ovr_pct = ovr_pct / int(c)
+print (ovr_pct)
