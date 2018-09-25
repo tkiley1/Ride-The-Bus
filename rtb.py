@@ -45,8 +45,12 @@ def get_guess(it, seen_cards, curr_flip, deck):
             return random.choice(options)
     
     if it == 2:
-        lowc = get_value(curr_flip[0])
-        highc = get_value(curr_flip[1])
+        if get_value(curr_flip[0]) > get_value(curr_flip[1]):
+            lowc = get_value(curr_flip[1])
+            highc = get_value(curr_flip[0])
+        else:
+            lowc = get_value(curr_flip[0])
+            highc = get_value(curr_flip[1])
 
         cards_seen_outside = 0
         cards_seen_inside = 0

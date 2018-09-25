@@ -15,6 +15,7 @@ def flip(deck):
     return tmp, deck
 
 def rtb():
+    fuck_up_list = {"color":0, "Higher/Lower":0, "Between / Outside":0, "Suit":0}
     deck = initialize_deck()
     seen_cards = []
     curr_flip = []
@@ -32,7 +33,7 @@ def rtb():
             curr_flip = []
             it = 0
             games = games + 1
-         #   print("Fucked up the color")
+            fuck_up_list["color"] = fuck_up_list["color"] + 1 
             continue
         curr_flip = curr_flip + [card]
         #print(seen_cards)
@@ -47,6 +48,7 @@ def rtb():
             it = 0
             games = games + 1
          #   print("Fucked up higher or lower")
+            fuck_up_list["Higher/Lower"] = fuck_up_list["Higher/Lower"] + 1
             continue
         curr_flip = curr_flip + [card]
         #print(seen_cards)
@@ -67,6 +69,7 @@ def rtb():
             it = 0
             games = games + 1
             #print("Fucked up between or outside")
+            fuck_up_list["Between / Outside"] = fuck_up_list["Between / Outside"] + 1
             continue
         curr_flip = curr_flip + [card]
         #print(seen_cards)
@@ -81,6 +84,7 @@ def rtb():
             it = 0
             games = games + 1
             #print("Fucked up the suit")
+            fuck_up_list["Suit"] = fuck_up_list["Suit"] + 1
             continue
         else:
             wins = wins + 1
@@ -89,14 +93,18 @@ def rtb():
             it = 0
             #print("Didn't fuck up")
             continue
-    return wins, games, 100*(float(wins)/games)
+    return wins, games, 100*(float(wins)/games), fuck_up_list
 
 ### DRIVER ###
 ovr_pct = 0
+fuck_up_list = {"color":0, "Higher/Lower":0, "Between / Outside":0, "Suit":0}
 c = input("Number of repetitions: ")
 for i in range(int(c)):
-    wins, games, pct = rtb()
+    wins, games, pct, flist = rtb()
+    for j in flist.keys():
+        fuck_up_list[j] = fuck_up_list[j] + flist[j]
     ovr_pct = pct + ovr_pct
     print (i)
 ovr_pct = ovr_pct / int(c)
 print (ovr_pct)
+print (fuck_up_list)
